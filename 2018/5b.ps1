@@ -25,7 +25,7 @@ function React-polymer ($StartString)
         }
         foreach ($TmpString in $TmpStrings)
         {
-            $ReplacedString = $ReplacedString -creplace $TmpString, ''
+            $ReplacedString = $ReplacedString.Replace($TmpString, '')
         }
     } until ($ReplacedString.length -eq $StartString.length)
     $ReplacedString.Length
