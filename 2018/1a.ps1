@@ -1,0 +1,1 @@
+(Get-Content $PSScriptRoot\1_input.txt | Measure-Object -Sum).Sum
