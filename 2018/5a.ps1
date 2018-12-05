@@ -4,10 +4,19 @@ dabAaCBAcCcaDA    This creates 'Aa', which is removed.
 dabCBAcCcaDA      Either 'cC' or 'Cc' are removed (the result is the same).
 dabCBAcaDA        No further actions can be taken.
 
+
+'dabAcCaCBAcCcaDA'
+'dabAaCBAcCcaDA'
+ dabAaCBAcaDA
+'dabCBAcCcaDA'
+'dabCBAcaDA'
+ dabCBAcaDA
+ dabCBAcaDA
 #>
 
 $StartString = 'dabAcCaCBAcCcaDA'
 $StartString = Get-Content $PSScriptRoot\5_input.txt
+#$StartString = -join $StartString[0..10000]
 
 function React-polymer ($StartString)
 {
@@ -19,19 +28,23 @@ function React-polymer ($StartString)
         '{1}{0}' -f $CharLarge, $CharSmall
     }
 
-    $regex = '({0})' -f ($TmpStrings -join '|')
-    $x = 0
+    $firstRun = $true
     do
     {
-        $x ++
-        if ($x -ne 1)
+        if ($firstRun)
+        {
+            $firstRun = $false
+            $ReplacedString = $StartString
+        }
+        else
         {
             $StartString = $ReplacedString
         }
-
-        $ReplacedString = $StartString -creplace $regex, ''
+        foreach ($TmpString in $TmpStrings)
+        {
+            $ReplacedString = $ReplacedString -creplace $TmpString, ''
+        }
     } until ($ReplacedString.length -eq $StartString.length)
     $ReplacedString.Length
 }
-
-React-polymer $StartString
+React-polymer -StartString $StartString

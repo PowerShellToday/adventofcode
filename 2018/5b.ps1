@@ -1,5 +1,5 @@
 $StartString = 'dabAcCaCBAcCcaDA'
-$StartString = Get-Content .\5_input.txt
+$StartString = Get-Content $PSScriptRoot\5_input.txt
 
 function React-polymer ($StartString)
 {
@@ -11,31 +11,28 @@ function React-polymer ($StartString)
         '{1}{0}' -f $CharLarge, $CharSmall
     }
 
-    $regex = '({0})' -f ($TmpStrings -join '|')
-    $x = 0
+    $firstRun = $true
     do
     {
-        $x ++
-        if ($x -ne 1)
+        if ($firstRun)
+        {
+            $firstRun = $false
+            $ReplacedString = $StartString
+        }
+        else
         {
             $StartString = $ReplacedString
         }
-
-        $ReplacedString = $StartString -creplace $regex, ''
+        foreach ($TmpString in $TmpStrings)
+        {
+            $ReplacedString = $ReplacedString -creplace $TmpString, ''
+        }
     } until ($ReplacedString.length -eq $StartString.length)
     $ReplacedString.Length
 }
 
 
-$chars = for ($i = 65; $i -le 90; $i++)
-{
-    [char]$i
-}
-
-$results = foreach ($char in $chars)
-{
-    $TmpStartString = $StartString -replace $char, ''
-    React-polymer $TmpStartString
-}
-
-($results | Measure-Object -Minimum).Minimum
+(65..90 | foreach {
+        $TmpStartString = $StartString -replace [char]$_, ''
+        React-polymer $TmpStartString
+    } | Measure-Object -Minimum ).Minimum
