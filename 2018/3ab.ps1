@@ -68,7 +68,7 @@ foreach ($Claimline in $Claimlines)
         }
         if ($Uniqe)
         {
-            #Answer A
+            #Answer B
             $claim.ClaimID
         }
 
