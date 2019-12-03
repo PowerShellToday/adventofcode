@@ -4,7 +4,7 @@ $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace 'script', 'funct
 
 
 
-$Inputs = Get-Content "$here\03-a-input.txt"
+$Inputs = Get-Content "$here\03-input.txt"
 get-closestIntersection -wire1 $Inputs[0] -wire2 $Inputs[1]
 
 get-closestIntersectionb -wire1 $Inputs[0] -wire2 $Inputs[1] -Verbose
