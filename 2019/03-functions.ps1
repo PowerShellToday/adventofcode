@@ -38,15 +38,19 @@ Function Show-Path {
     $Direction = $instruction.ToUpper().Substring(0, 1)
     [int32]$Length = $instruction.Substring(1)
 
-    1..$Length | ForEach-Object {
-        switch ($Direction) {
-            'R' { $x++ }
-            'L' { $x-- }
-            'U' { $y++ }
-            'D' { $y-- }
-            Default { }
+    switch ($Direction) {
+        'R' { 
+            (($x + 1)..($x + $Length)).ForEach{ "$_,$y" }
         }
-        "$x,$y"
+        'L' { 
+            (($x - 1)..($x - $Length)).ForEach{ "$_,$y" }
+        }
+        'U' { 
+            (($y + 1)..($y + $Length)).ForEach{ "$x,$_" }
+        }
+        'D' { 
+            (($y - 1)..($y - $Length)).ForEach{ "$x,$_" }
+        }
     }
 }
 
