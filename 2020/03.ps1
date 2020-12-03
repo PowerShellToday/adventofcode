@@ -1,5 +1,3 @@
-
-
 $Slopes = '..##.......',
 '#...#...#..',
 '.#....#..#.',
@@ -12,24 +10,41 @@ $Slopes = '..##.......',
 '#...##....#',
 '.#..#...#.#'
 $Slopes = Get-Content   "C:\test\lines.txt"
-$Horiz = 0
-$Vert = 0
 
-$HorizMove = 3
-$VertMove = 1
-$width = $Slopes[0].Length
-$trees = 0
-''
-do
-{
-    $Horiz += $HorizMove
-    $Vert += $VertMove
-    if ($Horiz -gt ($width - 1)) {
-        $Horiz = $Horiz - ($width)
-    }
-    if ($Slopes[$Vert][$Horiz] -eq '#') {
-        $trees ++
-    }
-} until ($Vert -eq ($Slopes.Length - 1))
+function Measure-Trees {
+    param (
+        $MoveRight,
+        $MoveDown,
+        $Slopes
+    )
 
-$trees
+    $Horiz = 0
+    $Vert = 0
+
+    $width = $Slopes[0].Length
+    $trees = 0
+
+    do
+    {
+        $Horiz += $MoveRight
+        $Vert += $MoveDown
+        if ($Horiz -gt ($width - 1))
+        {
+            $Horiz = $Horiz - ($width)
+        }
+        if ($Slopes[$Vert][$Horiz] -eq '#')
+        {
+            $trees ++
+        }
+    } until ($Vert -eq ($Slopes.Length - 1))
+
+    $trees
+}
+
+(Measure-Trees -MoveRight 1 -MoveDown 1 -slopes $Slopes)*
+(Measure-Trees -MoveRight 3 -MoveDown 1 -slopes $Slopes)*
+(Measure-Trees -MoveRight 5 -MoveDown 1 -slopes $Slopes)*
+(Measure-Trees -MoveRight 7 -MoveDown 1 -slopes $Slopes)*
+(Measure-Trees -MoveRight 1 -MoveDown 2 -slopes $Slopes)
+
+
