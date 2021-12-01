@@ -34,9 +34,9 @@ function Get-Part2 {
     
     process {
         $Numbers = for ($i = 0; $i -lt ($inputData.Count - 2); $i++) {
-            $CurValues = $inputData[$i..($i + 2)]
-            Write-Debug "Current Values: $($CurValues -join ',')"
-            ($CurValues | Measure-Object -Sum).Sum
+            $Values = $inputData[$i..($i + 2)]
+            Write-Debug "Values: $($Values -join ',')"
+            ($Values | Measure-Object -Sum).Sum
         }
     }
     
