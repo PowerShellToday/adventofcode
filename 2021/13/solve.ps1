@@ -5,7 +5,7 @@ function write-paper {
     ''
     foreach ($y in 0..$paper.GetUpperBound(1)) {
         $row = foreach ($x in 0..$paper.GetUpperBound(0)) {
-            $paper[$x, $y] ? 'O':' '
+            $paper[$x, $y] ? '@':' '
         }
         $row -join ''
     }
